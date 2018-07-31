@@ -57,6 +57,7 @@ const (
 	TokenInteger                    // Token is an integer number
 	TokenFloat                      // Token is a floating point number
 	TokenURI                        // Token is an URL, in the form of http://... or https://...
+	TokenURIPath                    // Token is an URL, in the form of http://... or https://...
 	TokenMac                        // Token is a mac address
 	TokenString                     // Token is a string that reprensents multiple possible values
 	token__END__                    // All tag types must be inserted before this one
@@ -75,6 +76,7 @@ var tokens = [...]struct {
 	{"integer"},
 	{"float"},
 	{"uri"},
+	{"uripath"},
 	{"mac"},
 	{"string"},
 	{"token__END__"},
@@ -115,6 +117,8 @@ func name2TokenType(s string) TokenType {
 	case "float":
 		return TokenFloat
 	case "url":
+	case "uripath":
+		return TokenURIPath
 		return TokenURI
 	case "mac":
 		return TokenMac

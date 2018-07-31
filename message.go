@@ -251,6 +251,8 @@ func (this *Message) tokenStep(i int, r rune) bool {
 			if this.state.prevToken.Type == TokenIPv4 {
 				this.state.tokenType = TokenLiteral
 				this.state.tokenStop = true
+			} else {
+				this.state.tokenType = TokenURIPath
 			}
 
 		case '"', '\'':
@@ -339,6 +341,18 @@ func (this *Message) tokenStep(i int, r rune) bool {
 				if i < 6 {
 					this.state.tokenType = TokenLiteral
 				}
+			}
+		}
+
+	case TokenURIPath:
+		//glog.Debugf("i=%d, r=%c, tokenStop=%t, tokenType=%s\n", i, r, this.state.tokenStop, this.state.tokenType)
+		switch {
+		default:
+			//if i >= 6 && (!unicode.IsSpace(r) || (this.state.inquote && matchQuote(this.state.chquote, r))) {
+			if i >= 1 && isUrlChar(r) {
+				// part of URL, keep going
+			} else {
+				this.state.tokenStop = true
 			}
 		}
 
@@ -463,6 +477,10 @@ func (this *Message) tokenStep(i int, r rune) bool {
 // first return value indicates whether this is a valid hex string
 // second return value indicates whether to stop scanning
 func (this *Message) hexStep(i int, r rune) (bool, bool) {
+	if this.state.tokenType != TokenURIPath {
+		return false, false
+	}
+
 	switch this.state.hexState {
 	case hexStart:
 		switch {

@@ -1052,6 +1052,13 @@ LOOP:
 					fexists[TagMsgTime] = true
 				}
 
+			case TokenURIPath:
+				if !fexists[TagObject] {
+					seq[i].Tag = TagObject
+					seq[i].Type = seq[i].Tag.TokenType()
+					fexists[TagObject] = true
+				}
+
 			case TokenURI:
 				if !fexists[TagObject] {
 					seq[i].Tag = TagObject
