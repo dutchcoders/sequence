@@ -140,5 +140,5 @@ func name2TagType(s string) TagType {
 		return t
 	}
 
-	return 0
+	return TagUnknown
 }
