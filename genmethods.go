@@ -26,6 +26,7 @@ import (
 
 var (
 	methods = []string{
+		"HEAD",
 		"GET",
 		"PUT",
 		"POST",
